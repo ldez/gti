@@ -79,7 +79,7 @@ func (d drawer) drawStd(x int) {
 func (d drawer) drawPush(x int) {
 	moveToTop()
 
-	d.lineAt(x, "   __      ,---------------.")
+	d.lineAt(x, "   __     ,---------------.")
 	d.lineAt(x, "  /--\\   /  /``````|``````\\\\")
 	d.lineAt(x, "  \\__/  /  /_______|_______\\\\________")
 	d.lineAt(x, "   ||-< |]      GTI |'       |        |]")
