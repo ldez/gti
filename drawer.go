@@ -118,13 +118,9 @@ func (d drawer) drawPull(x int) {
 func (d drawer) clearCar(x int) {
 	moveToTop()
 
-	d.lineAt(x, "  ")
-	d.lineAt(x, "  ")
-	d.lineAt(x, "  ")
-	d.lineAt(x, "  ")
-	d.lineAt(x, "  ")
-	d.lineAt(x, "  ")
-	d.lineAt(x, "  ")
+	for i := 0; i < 7; i++ {
+		d.lineAt(x, "  ")
+	}
 }
 
 func (d drawer) lineAt(startX int, in string) {
