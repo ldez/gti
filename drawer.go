@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"golang.org/x/crypto/ssh/terminal"
@@ -35,11 +36,11 @@ func newDrawer() drawer {
 func (d drawer) draw() {
 	drawFunc := d.selectCommand(os.Args)
 
-	fmt.Print("\n\n\n\n\n\n\n")
+	fmt.Print(strings.Repeat("\n", 7))
 
 	for i := -20; i < d.termWidth; i++ {
 		drawFunc(i)
-		d.clearCar(i)
+		d.clearCar(i, 7, 2)
 	}
 }
 
@@ -115,11 +116,11 @@ func (d drawer) drawPull(x int) {
 	time.Sleep(d.frameTime * 8)
 }
 
-func (d drawer) clearCar(x int) {
+func (d drawer) clearCar(x int, height int, length int) {
 	moveToTop()
 
-	for i := 0; i < 7; i++ {
-		d.lineAt(x, "  ")
+	for i := 0; i < height; i++ {
+		d.lineAt(x, strings.Repeat(" ", length))
 	}
 }
 
