@@ -18,8 +18,6 @@ func main() {
 	drawer := newDrawer()
 	drawer.draw()
 
-	moveToTop()
-
 	if gitPath := os.Getenv("GIT"); len(gitPath) > 0 {
 		execCommand(gitPath)
 	} else {

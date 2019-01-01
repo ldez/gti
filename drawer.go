@@ -36,12 +36,17 @@ func newDrawer() drawer {
 func (d drawer) draw() {
 	drawFunc := d.selectCommand(os.Args)
 
-	fmt.Print(strings.Repeat("\n", 7))
+	height := 7
+
+	fmt.Print(strings.Repeat("\n", height))
 
 	for i := -20; i < d.termWidth; i++ {
+		moveToTop(height)
 		drawFunc(i)
-		d.clearCar(i, 7, 2)
+		d.clearCar(i, height, 2)
 	}
+
+	moveToTop(height)
 }
 
 func (d drawer) selectCommand(args []string) func(int) {
@@ -57,8 +62,6 @@ func (d drawer) selectCommand(args []string) func(int) {
 }
 
 func (d drawer) drawStd(x int) {
-	moveToTop()
-
 	d.lineAt(x, "   ,---------------.")
 	d.lineAt(x, "  /  /``````|``````\\\\")
 	d.lineAt(x, " /  /_______|_______\\\\________")
@@ -77,8 +80,6 @@ func (d drawer) drawStd(x int) {
 }
 
 func (d drawer) drawPush(x int) {
-	moveToTop()
-
 	d.lineAt(x, "   __     ,---------------.")
 	d.lineAt(x, "  /--\\   /  /``````|``````\\\\")
 	d.lineAt(x, "  \\__/  /  /_______|_______\\\\________")
@@ -97,8 +98,6 @@ func (d drawer) drawPush(x int) {
 }
 
 func (d drawer) drawPull(x int) {
-	moveToTop()
-
 	d.lineAt(x, "   ,---------------.               __")
 	d.lineAt(x, "  /  /``````|``````\\\\             /--\\")
 	d.lineAt(x, " /  /_______|_______\\\\________    \\__/")
@@ -117,7 +116,7 @@ func (d drawer) drawPull(x int) {
 }
 
 func (d drawer) clearCar(x int, height int, length int) {
-	moveToTop()
+	moveToTop(height)
 
 	for i := 0; i < height; i++ {
 		d.lineAt(x, strings.Repeat(" ", length))
@@ -137,8 +136,8 @@ func (d drawer) lineAt(startX int, in string) {
 	fmt.Println(content)
 }
 
-func moveToTop() {
-	fmt.Printf("\x1b[7A")
+func moveToTop(height int) {
+	fmt.Printf("\x1b[%dA", height)
 }
 
 func moveTo(x int) {
