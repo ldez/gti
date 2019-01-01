@@ -23,12 +23,12 @@ func newDrawer() drawer {
 
 	drw := drawer{termWidth: termWidth}
 
-	speed, err := strconv.Atoi(os.Getenv("GTI_SPEED"))
+	speed, err := strconv.ParseInt(os.Getenv("GTI_SPEED"), 10, 64)
 	if err != nil {
 		speed = 1000
 	}
 
-	drw.frameTime = time.Duration(10000000000 / (termWidth + speed + 1))
+	drw.frameTime = time.Duration(int64(10000000000) / (int64(termWidth) + speed + 1))
 
 	return drw
 }
