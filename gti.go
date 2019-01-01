@@ -5,10 +5,16 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"runtime"
+	"strconv"
 	"syscall"
 )
 
+var version = "dev"
+
 func main() {
+	displayVersion()
+
 	drawer := newDrawer()
 	drawer.draw()
 
@@ -34,6 +40,14 @@ func execCommand(name string) {
 			}
 		} else {
 			log.Println(err)
+		}
+	}
+}
+
+func displayVersion() {
+	if raw, found := os.LookupEnv("GTI_VERBOSE"); found {
+		if v, _ := strconv.ParseBool(raw); v {
+			fmt.Printf("gti version %s %s/%s\n", version, runtime.GOOS, runtime.GOARCH)
 		}
 	}
 }
