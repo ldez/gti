@@ -1,4 +1,4 @@
-# GTI
+# ![GTI](gti.png)
 
 [![Build Status](https://travis-ci.org/ldez/gti.svg?branch=master)](https://travis-ci.org/ldez/gti)
 
