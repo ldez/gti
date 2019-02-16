@@ -1,4 +1,4 @@
-.PHONY: clean checks test build
+.PHONY: clean check test build fmt
 
 SRCS = $(shell git ls-files '*.go' | grep -v '^vendor/')
 
@@ -6,7 +6,7 @@ TAG_NAME := $(shell git tag -l --contains HEAD)
 SHA := $(shell git rev-parse HEAD)
 VERSION := $(if $(TAG_NAME),$(TAG_NAME),$(SHA))
 
-default: clean checks test build
+default: clean check test build
 
 clean:
 	rm -rf dist/ builds/ cover.out
@@ -18,7 +18,7 @@ build: clean
 test: clean
 	GO111MODULE=on go test -v -cover ./...
 
-checks:
+check:
 	golangci-lint run
 
 fmt:

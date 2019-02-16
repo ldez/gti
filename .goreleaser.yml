@@ -3,10 +3,6 @@ project_name: gti
 builds:
   - binary: gti
 
-    main: .
-    ldflags:
-      - -s -w -X main.version={{.Version}}
-
     goos:
       - windows
       - darwin
@@ -28,6 +24,16 @@ builds:
       - goos: openbsd
         goarch: arm
 
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^doc:'
+      - '^chore:'
+      - '^test:'
+      - '^tests:'
+
 archive:
   name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm
     }}v{{ .Arm }}{{ end }}'
@@ -38,5 +44,3 @@ archive:
   files:
     - LICENSE
 
-release:
-  disable: true
