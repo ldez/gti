@@ -33,7 +33,8 @@
 [issues]
   exclude-use-default = false
   max-per-linter = 0
-  max-same = 0
-  exclude = [
-    "`version` is a global variable"
-  ]
+  max-same-issues = 0
+  exclude = []
+  [[issues.exclude-rules]]
+    path = "gti.go"
+    text = "`(version)` is a global variable"
