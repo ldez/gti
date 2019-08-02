@@ -1,5 +1,7 @@
 .PHONY: clean check test build fmt
 
+export GO111MODULE=on
+
 SRCS = $(shell git ls-files '*.go' | grep -v '^vendor/')
 
 TAG_NAME := $(shell git tag -l --contains HEAD)
@@ -16,7 +18,7 @@ build: clean
 	GO111MODULE=on go build -v -ldflags '-X "main.version=${VERSION}"'
 
 test: clean
-	GO111MODULE=on go test -v -cover ./...
+	go test -v -cover ./...
 
 check:
 	golangci-lint run
