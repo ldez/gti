@@ -1,0 +1,75 @@
+= image:gti.png[GTI]
+
+image:https://travis-ci.org/ldez/gti.svg?branch=master[Build Status,link=https://travis-ci.org/ldez/gti]
+
+Just a silly `git` launcher, basically. Inspired by `sl`.
+
+A port of the original https://github.com/rwos/gti[gti] in Go.
+
+----
+        ,---------------.
+       /  /``````|``````\\
+      /  /_______|_______\\________
+     |]      GTI |'       |        |]
+     =  .-:-.    |________|  .-:-.  =
+      `  -+-  --------------  -+-  '
+        '-:-'                '-:-'
+----
+
+
+== How to Install
+
+|===
+| OS | | Command
+
+| Linux
+| image:https://img.shields.io/aur/version/gti-bin.svg?style=flat["ArchLinux (AUR)", link="https://aur.archlinux.org/packages/gti-bin"]
+a|
+[source]
+----
+yay -S gti-bin
+----
+
+| MacOS
+| image:https://img.shields.io/github/release/ldez/gti.svg?label=Homebrew%20Taps&style=flat["Homebrew Taps", link="https://github.com/ldez/homebrew-tap"]
+a|
+[source,bash]
+----
+brew tap ldez/tap
+brew update
+brew install gti
+----
+
+| Windows
+| image:https://img.shields.io/github/release/ldez/gti.svg?label=Scoop%20Bucket&style=flat["Scoop Bucket", link="https://github.com/ldez/scoop-bucket"]
+a|
+[source,bash]
+----
+scoop bucket add ldez https://github.com/ldez/scoop-bucket.git
+scoop install gti
+----
+
+| all
+| image:https://img.shields.io/github/release/ldez/gti.svg?label=Binaries&style=flat["Binaries", link="https://github.com/ldez/gti/releases"]
+a|
+* To get the binary just download the latest release for your OS/Arch from https://github.com/ldez/gti/releases[the releases page]
+* Unzip the archive.
+* Add `gti` in your `PATH`.
+
+| all
+| https://github.com/ldez/gti[Sources]
+a|
+[source,bash]
+----
+go get -u github.com/ldez/gti
+----
+
+|===
+
+== Configuration
+
+Environment Variables:
+
+* `GTI_SPEED` [`int`]: display speed (default: `"1000"`)
+* `GTI_VERBOSE` [`bool`]: display GTI version (default: `"false"`)
+
