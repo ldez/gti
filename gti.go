@@ -1,3 +1,5 @@
+//go:generate go run ./draw
+
 package main
 
 import (
@@ -15,7 +17,12 @@ var version = "dev"
 func main() {
 	displayVersion()
 
-	drawer := newDrawer()
+	speed, err := strconv.ParseInt(os.Getenv("GTI_SPEED"), 10, 64)
+	if err != nil {
+		speed = 100
+	}
+
+	drawer := newDrawer(speed)
 	drawer.draw()
 
 	if gitPath := os.Getenv("GIT"); len(gitPath) > 0 {

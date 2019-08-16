@@ -23,5 +23,8 @@ test: clean
 check:
 	golangci-lint run
 
+generate:
+	go generate
+
 fmt:
 	gofmt -s -l -w $(SRCS)

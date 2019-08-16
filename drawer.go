@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 	"time"
 
@@ -15,18 +14,13 @@ type drawer struct {
 	frameTime time.Duration
 }
 
-func newDrawer() drawer {
+func newDrawer(speed int64) drawer {
 	termWidth, _, err := terminal.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		panic(err)
 	}
 
 	drw := drawer{termWidth: termWidth}
-
-	speed, err := strconv.ParseInt(os.Getenv("GTI_SPEED"), 10, 64)
-	if err != nil {
-		speed = 1000
-	}
 
 	drw.frameTime = time.Duration(int64(10000000000) / (int64(termWidth) + speed + 1))
 
@@ -59,60 +53,6 @@ func (d drawer) selectCommand(args []string) func(int) {
 		}
 	}
 	return d.drawStd
-}
-
-func (d drawer) drawStd(x int) {
-	d.lineAt(x, "   ,---------------.")
-	d.lineAt(x, "  /  /``````|``````\\\\")
-	d.lineAt(x, " /  /_______|_______\\\\________")
-	d.lineAt(x, "|]      GTI |'       |        |]")
-	if x%2 != 0 {
-		d.lineAt(x, "=  .-:-.    |________|  .-:-.  =")
-		d.lineAt(x, " `  -+-  --------------  -+-  '")
-		d.lineAt(x, "   '-:-'                '-:-'  ")
-	} else {
-		d.lineAt(x, "=  .:-:.    |________|  .:-:.  =")
-		d.lineAt(x, " `   X   --------------   X   '")
-		d.lineAt(x, "   ':-:'                ':-:'  ")
-	}
-
-	time.Sleep(d.frameTime)
-}
-
-func (d drawer) drawPush(x int) {
-	d.lineAt(x, "   __     ,---------------.")
-	d.lineAt(x, "  /--\\   /  /``````|``````\\\\")
-	d.lineAt(x, "  \\__/  /  /_______|_______\\\\________")
-	d.lineAt(x, "   ||-< |]      GTI |'       |        |]")
-	if x%2 != 0 {
-		d.lineAt(x, "   ||-< =  .-:-.    |________|  .-:-.  =")
-		d.lineAt(x, "   ||    `  -+-  --------------  -+-  '")
-		d.lineAt(x, "   ||      '-:-'                '-:-'  ")
-	} else {
-		d.lineAt(x, "   ||-< =  .:-:.    |________|  .:-:.  =")
-		d.lineAt(x, "   /\\    `   X   --------------   X   '")
-		d.lineAt(x, "  /  \\     ':-:'                ':-:'  ")
-	}
-
-	time.Sleep(d.frameTime * 10)
-}
-
-func (d drawer) drawPull(x int) {
-	d.lineAt(x, "   ,---------------.               __")
-	d.lineAt(x, "  /  /``````|``````\\\\             /--\\")
-	d.lineAt(x, " /  /_______|_______\\\\________    \\__/")
-	d.lineAt(x, "|]      GTI |'       |        |] >-||")
-	if x%2 != 0 {
-		d.lineAt(x, "=  .-:-.    |________|  .-:-.  = >-||")
-		d.lineAt(x, " `  -+-  --------------  -+-  '    || ")
-		d.lineAt(x, "   '-:-'                '-:-'      ||  ")
-	} else {
-		d.lineAt(x, "=  .:-:.    |________|  .:-:.  = >-||")
-		d.lineAt(x, " `   X   --------------   X   '   /  \\")
-		d.lineAt(x, "   ':-:'                ':-:'    /    \\")
-	}
-
-	time.Sleep(d.frameTime * 8)
 }
 
 func (d drawer) clearCar(x int, height int, length int) {
