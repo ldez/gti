@@ -19,7 +19,7 @@ func main() {
 
 	speed, err := strconv.ParseInt(os.Getenv("GTI_SPEED"), 10, 64)
 	if err != nil {
-		speed = 100
+		speed = 1000
 	}
 
 	drawer := newDrawer(speed)
