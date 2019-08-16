@@ -34,13 +34,36 @@ changelog:
       - '^test:'
       - '^tests:'
 
-archive:
-  name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm
-    }}v{{ .Arm }}{{ end }}'
-  format: tar.gz
-  format_overrides:
-    - goos: windows
-      format: zip
-  files:
-    - LICENSE
+archives:
+  - id: gti
+    name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm}}v{{ .Arm }}{{ end }}'
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE
 
+brews:
+  - github:
+      owner: ldez
+      name: homebrew-tap
+    commit_author:
+      name: ldez
+      email: ldez@users.noreply.github.com
+    folder: Formula
+    homepage: https://github.com/ldez/gti
+    description: Just a silly git launcher, basically. Inspired by sl.
+#    test: |
+#      system "#{bin}/gti version"
+
+scoop:
+  bucket:
+    owner: ldez
+    name: scoop-bucket
+  commit_author:
+    name: ldez
+    email: ldez@users.noreply.github.com
+  homepage: https://github.com/ldez/gti
+  description: Just a silly git launcher, basically. Inspired by sl.
+  license: APACHE
