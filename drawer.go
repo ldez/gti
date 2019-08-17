@@ -9,6 +9,13 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
+type animation struct {
+	rl     bool
+	height int
+	length int
+	frames [][]string
+}
+
 type drawer struct {
 	termWidth int
 	frameTime time.Duration
@@ -28,31 +35,56 @@ func newDrawer(speed int64) drawer {
 }
 
 func (d drawer) draw() {
-	drawFunc := d.selectCommand(os.Args)
+	anim := d.selectAnimation(os.Args)
 
-	height := 7
+	fmt.Print(strings.Repeat("\n", anim.height))
 
-	fmt.Print(strings.Repeat("\n", height))
-
-	for i := -20; i < d.termWidth; i++ {
-		moveToTop(height)
-		drawFunc(i)
-		d.clearCar(i, height, 2)
-	}
-
-	moveToTop(height)
-}
-
-func (d drawer) selectCommand(args []string) func(int) {
-	for _, value := range args {
-		switch value {
-		case "push":
-			return d.drawPush
-		case "pull":
-			return d.drawPull
+	if anim.rl {
+		// R -> L
+		var index int
+		for i := d.termWidth; i > 0; i-- {
+			if len(anim.frames) <= index {
+				index = 0
+			}
+			d.move(anim.height, anim.length, i, anim.frames, index)
+			index++
+		}
+	} else {
+		// L -> R
+		var index int
+		for i := -20; i < d.termWidth; i++ {
+			if len(anim.frames) <= index {
+				index = 0
+			}
+			d.move(anim.height, anim.length, i, anim.frames, index)
+			index++
 		}
 	}
-	return d.drawStd
+
+	moveToTop(anim.height)
+}
+
+func (d drawer) move(height, length, x int, frames [][]string, index int) {
+	moveToTop(height)
+
+	for _, v := range frames[index] {
+		d.lineAt(x, v)
+	}
+
+	time.Sleep(d.frameTime)
+	d.clearCar(x, height, length)
+}
+
+func (d drawer) selectAnimation(args []string) animation {
+	golf := getGolf()
+
+	for _, value := range args {
+		if anim, ok := golf[value]; ok {
+			return anim
+		}
+	}
+
+	return golf[""]
 }
 
 func (d drawer) clearCar(x int, height int, length int) {

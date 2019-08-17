@@ -1,4 +1,4 @@
-//go:generate go run ./draw
+//go:generate go run ./internal
 
 package main
 
