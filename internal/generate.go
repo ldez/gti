@@ -42,9 +42,14 @@ func get{{ Title $carType }}() map[string]animation{
 `
 
 const (
-	rlPrefix          = "rl_"
+	// filePrefix the files related to animation must have this extension.
+	filePrefix = ".txt"
+
+	// rlPrefix if a file is prefixed by this prefix, the animation will be run from right to left.
+	rlPrefix = "rl_"
+
+	// multiplierPattern f a file is suffixed by this suffix, the sprite will be repeated as many times as the number defines after the letter 'x'.
 	multiplierPattern = `_x(\d+).txt$`
-	filePrefix        = ".txt"
 )
 
 type descriptor struct {
