@@ -57,7 +57,9 @@ func (d drawer) draw() {
 				index = 0
 			}
 			d.move(anim.height, anim.length, i, anim.frames, index)
-			index++
+			if i%10 == 0 {
+				index++
+			}
 		}
 	}
 
