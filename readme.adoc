@@ -6,7 +6,7 @@ Just a silly `git` launcher, basically. Inspired by `sl`.
 
 A port of the original https://github.com/rwos/gti[gti] in Go.
 
-image:https://user-images.githubusercontent.com/5674651/63206302-38baf900-c0b2-11e9-86c0-88e74a7890ee.gif[Demo]
+image:https://user-images.githubusercontent.com/5674651/63211052-8192a200-c0f2-11e9-9958-1e6eb6c5f4ba.gif[Demo]
 
 == How to Install
 
