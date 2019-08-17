@@ -37,6 +37,7 @@ func get{{ Title $carType }}() map[string]animation{
 		{{end -}}
 	}
 }
+
 {{end -}}
 `
 

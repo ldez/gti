@@ -76,7 +76,7 @@ func (d drawer) move(height, length, x int, frames [][]string, index int) {
 }
 
 func (d drawer) selectAnimation(args []string) animation {
-	golf := getGolf()
+	golf := getFeiroGT()
 
 	for _, value := range args {
 		if anim, ok := golf[value]; ok {
