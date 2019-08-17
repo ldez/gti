@@ -12,7 +12,9 @@ before_install:
   - golangci-lint --version
 
 install:
-  - echo "TRAVIS_GO_VERSION=$TRAVIS_GO_VERSION"
+  - go mod tidy
+  - git diff --exit-code go.mod
+  - git diff --exit-code go.sum
   - go mod download
 
 deploy:
@@ -21,4 +23,3 @@ deploy:
     script: curl -sL https://git.io/goreleaser | bash
     on:
       tags: true
-      condition: $TRAVIS_GO_VERSION =~ ^1\.x$
