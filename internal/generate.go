@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"text/template"
@@ -40,7 +41,11 @@ func get{{ Title $carType }}() map[string]animation{
 {{end -}}
 `
 
-const rlPrefix = "rl_"
+const (
+	rlPrefix          = "rl_"
+	multiplierPattern = `_x(\d+).txt$`
+	filePrefix        = ".txt"
+)
 
 type descriptor struct {
 	RL     bool
@@ -119,7 +124,7 @@ func readCommands(dirPath string) (map[string]descriptor, error) {
 	result := map[string]descriptor{}
 
 	for _, item := range items {
-		if item.IsDir() {
+		if item.IsDir() && !strings.HasPrefix(item.Name(), ".") {
 			cmdName := item.Name()
 
 			cmdDir := filepath.Join(dirPath, cmdName)
@@ -129,7 +134,7 @@ func readCommands(dirPath string) (map[string]descriptor, error) {
 				return nil, err
 			}
 			result[cmdName] = anims
-		} else {
+		} else if strings.HasSuffix(item.Name(), filePrefix) {
 			data, length, err := readDraw(filepath.Join(dirPath, item.Name()))
 			if err != nil {
 				return nil, err
@@ -146,7 +151,7 @@ func readCommands(dirPath string) (map[string]descriptor, error) {
 				RL:     result[""].RL || strings.HasPrefix(item.Name(), rlPrefix),
 				Height: maxHeight,
 				Length: maxLength,
-				Frames: append(result[""].Frames, data),
+				Frames: appendFrames(item.Name(), result[""].Frames, data),
 			}
 		}
 	}
@@ -166,7 +171,7 @@ func readAnimations(dirPath string) (descriptor, error) {
 
 	var frames [][]string
 	for _, item := range items {
-		if !item.IsDir() {
+		if !item.IsDir() && strings.HasSuffix(item.Name(), filePrefix) {
 			data, length, err := readDraw(filepath.Join(dirPath, item.Name()))
 			if err != nil {
 				return descriptor{}, err
@@ -182,7 +187,7 @@ func readAnimations(dirPath string) (descriptor, error) {
 				maxLength = length
 			}
 
-			frames = append(frames, data)
+			frames = appendFrames(item.Name(), frames, data)
 		}
 	}
 
@@ -222,4 +227,17 @@ func readDraw(filename string) ([]string, int, error) {
 	}
 
 	return lines, maxLength, nil
+}
+
+func appendFrames(name string, src [][]string, data []string) [][]string {
+	frames := append(src, data)
+
+	rawMulti := regexp.MustCompile(multiplierPattern).FindStringSubmatch(name)
+	if len(rawMulti) == 2 {
+		multi, _ := strconv.Atoi(rawMulti[1])
+		for i := 0; i < multi; i++ {
+			frames = append(frames, data)
+		}
+	}
+	return frames
 }
