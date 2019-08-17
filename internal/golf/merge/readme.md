@@ -2,5 +2,5 @@
 
 sources:
 
-- https://textart.io/art/tag/transformers
-- http://www.asciiworld.com/-Robots,24-.html
+- http://www.asciiworld.com/-Cars-.html
+- http://www.asciiworld.com/-Trucks-.html
