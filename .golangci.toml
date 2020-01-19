@@ -28,6 +28,8 @@
     "gas",
     "dupl",
     "prealloc",
+    "gomnd",
+    "wsl",
   ]
 
 [issues]

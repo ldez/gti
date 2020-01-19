@@ -1,6 +1,6 @@
 = image:gti.png[GTI]
 
-image:https://travis-ci.org/ldez/gti.svg?branch=master[Build Status,link=https://travis-ci.org/ldez/gti]
+image:https://travis-ci.com/ldez/gti.svg?branch=master[Build Status,link=https://travis-ci.com/ldez/gti]
 
 Just a silly `git` launcher, basically. Inspired by `sl`.
 
