@@ -15,7 +15,7 @@ clean:
 
 build: clean
 	@echo Version: $(VERSION)
-	GO111MODULE=on go build -v -ldflags '-X "main.version=${VERSION}"'
+	CGO_ENABLED=0 go build -v -ldflags "-s -w -X 'main.version=${VERSION}'" -trimpath
 
 test: clean
 	go test -v -cover ./...
