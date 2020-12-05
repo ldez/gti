@@ -138,6 +138,7 @@ func readCommands(dirPath string) (map[string]descriptor, error) {
 			if err != nil {
 				return nil, err
 			}
+
 			result[cmdName] = anims
 		} else if strings.HasSuffix(item.Name(), filePrefix) {
 			data, length, err := readDraw(filepath.Join(dirPath, item.Name()))
@@ -244,5 +245,6 @@ func appendFrames(name string, src [][]string, data []string) [][]string {
 			frames = append(frames, data)
 		}
 	}
+
 	return frames
 }

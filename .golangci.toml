@@ -30,6 +30,9 @@
     "prealloc",
     "gomnd",
     "wsl",
+    "nlreturn",
+    "wrapcheck",
+    "nestif",
   ]
 
 [issues]
