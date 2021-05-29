@@ -1,0 +1,96 @@
+run:
+  deadline: 5m
+  skip-files: [ ]
+  skip-dirs: [ ]
+
+linters-settings:
+  govet:
+    enable-all: true
+    disable:
+      - fieldalignment
+  gocyclo:
+    min-complexity: 15
+  maligned:
+    suggest-new: true
+  goconst:
+    min-len: 5
+    min-occurrences: 3
+  misspell:
+    locale: US
+  funlen:
+    lines: -1
+    statements: 50
+  godox:
+    keywords:
+      - FIXME
+  gofumpt:
+    extra-rules: true
+  depguard:
+    list-type: blacklist
+    include-go-root: false
+    packages:
+      - github.com/sirupsen/logrus
+      - github.com/pkg/errors
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+    disabled-checks:
+      - unnamedResult
+      - appendAssign
+      - sloppyReassign
+      - rangeValCopy
+      - octalLiteral
+      - paramTypeCombine # already handled by gofumpt.extra-rules
+    settings:
+      hugeParam:
+        sizeThreshold: 290
+  forbidigo:
+    forbid:
+      - print(ln)?
+
+
+linters:
+  enable-all: true
+  disable:
+    - maligned # deprecated
+    - interfacer # deprecated
+    - scopelint # deprecated
+    - golint # deprecated
+    - sqlclosecheck # not relevant (SQL)
+    - rowserrcheck # not relevant (SQL)
+    - cyclop # duplicate of gocyclo
+    - lll
+    - dupl
+    - wsl
+    - nlreturn
+    - gomnd
+    - goerr113
+    - wrapcheck
+    - exhaustive
+    - exhaustivestruct
+    - testpackage
+    - tparallel
+    - paralleltest
+    - prealloc
+    - ifshort
+    - forcetypeassert
+    - nestif
+    - bodyclose # Too many false positives: https://github.com/timakin/bodyclose/issues/30
+
+issues:
+  exclude-use-default: false
+  max-per-linter: 0
+  max-same-issues: 0
+  exclude:
+    - 'G204: Subprocess launched with variable'
+    - 'G304: Potential file inclusion via variable'
+  exclude-rules:
+    - path: .*_test.go
+      linters:
+        - funlen
+    - path: gti.go
+      text: "`(version)` is a global variable"
+    - path: internal/generate.go
+      text: 'G306: Expect WriteFile permissions to be 0600 or less'

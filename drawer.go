@@ -89,7 +89,7 @@ func (d drawer) selectAnimation(args []string) animation {
 	return golf[""]
 }
 
-func (d drawer) clearCar(x int, height int, length int) {
+func (d drawer) clearCar(x, height, length int) {
 	moveToTop(height)
 
 	for i := 0; i < height; i++ {

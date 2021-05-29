@@ -2,8 +2,6 @@
 
 export GO111MODULE=on
 
-SRCS = $(shell git ls-files '*.go' | grep -v '^vendor/')
-
 TAG_NAME := $(shell git tag -l --contains HEAD)
 SHA := $(shell git rev-parse HEAD)
 VERSION := $(if $(TAG_NAME),$(TAG_NAME),$(SHA))
@@ -15,7 +13,7 @@ clean:
 
 build: clean
 	@echo Version: $(VERSION)
-	CGO_ENABLED=0 go build -v -ldflags "-s -w -X 'main.version=${VERSION}'" -trimpath
+	CGO_ENABLED=0 go build -ldflags "-s -w -X 'main.version=${VERSION}'" -trimpath
 
 test: clean
 	go test -v -cover ./...
@@ -25,6 +23,3 @@ check:
 
 generate:
 	go generate
-
-fmt:
-	gofmt -s -l -w $(SRCS)

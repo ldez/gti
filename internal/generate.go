@@ -100,18 +100,20 @@ func readCarTypes(rootDir string) (map[string]map[string]descriptor, error) {
 	result := map[string]map[string]descriptor{}
 
 	for _, item := range infos {
-		if item.IsDir() {
-			carType := item.Name()
-
-			typeDir := filepath.Join(rootDir, carType)
-
-			animations, err := readCommands(typeDir)
-			if err != nil {
-				return nil, err
-			}
-
-			result[carType] = animations
+		if !item.IsDir() {
+			continue
 		}
+
+		carType := item.Name()
+
+		typeDir := filepath.Join(rootDir, carType)
+
+		animations, err := readCommands(typeDir)
+		if err != nil {
+			return nil, err
+		}
+
+		result[carType] = animations
 	}
 
 	return result, nil
@@ -177,24 +179,26 @@ func readAnimations(dirPath string) (descriptor, error) {
 
 	var frames [][]string
 	for _, item := range items {
-		if !item.IsDir() && strings.HasSuffix(item.Name(), filePrefix) {
-			data, length, err := readDraw(filepath.Join(dirPath, item.Name()))
-			if err != nil {
-				return descriptor{}, err
-			}
-
-			rl = rl || strings.HasPrefix(item.Name(), rlPrefix)
-
-			if maxHeight < len(data) {
-				maxHeight = len(data)
-			}
-
-			if maxLength < length {
-				maxLength = length
-			}
-
-			frames = appendFrames(item.Name(), frames, data)
+		if item.IsDir() || !strings.HasSuffix(item.Name(), filePrefix) {
+			continue
 		}
+
+		data, length, err := readDraw(filepath.Join(dirPath, item.Name()))
+		if err != nil {
+			return descriptor{}, err
+		}
+
+		rl = rl || strings.HasPrefix(item.Name(), rlPrefix)
+
+		if maxHeight < len(data) {
+			maxHeight = len(data)
+		}
+
+		if maxLength < length {
+			maxLength = length
+		}
+
+		frames = appendFrames(item.Name(), frames, data)
 	}
 
 	return descriptor{
