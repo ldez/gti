@@ -2,4 +2,4 @@ module github.com/ldez/gti
 
 go 1.14
 
-require golang.org/x/crypto v0.0.0-20200221231518-2aa609cf4a9d
+require golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1

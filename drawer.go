@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 type animation struct {
@@ -22,7 +22,7 @@ type drawer struct {
 }
 
 func newDrawer(speed int64) drawer {
-	termWidth, _, err := terminal.GetSize(int(os.Stdout.Fd()))
+	termWidth, _, err := term.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		panic(err)
 	}
