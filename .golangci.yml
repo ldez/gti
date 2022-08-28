@@ -1,5 +1,5 @@
 run:
-  deadline: 5m
+  timeout: 5m
   skip-files: [ ]
   skip-dirs: [ ]
 
@@ -10,8 +10,6 @@ linters-settings:
       - fieldalignment
   gocyclo:
     min-complexity: 15
-  maligned:
-    suggest-new: true
   goconst:
     min-len: 5
     min-occurrences: 3
@@ -49,18 +47,29 @@ linters-settings:
   forbidigo:
     forbid:
       - print(ln)?
-
+  gosec:
+    excludes:
+      - G204 # Subprocess launched with variable
+      - G304 # Potential file inclusion via variable
 
 linters:
   enable-all: true
   disable:
-    - maligned # deprecated
-    - interfacer # deprecated
     - scopelint # deprecated
+    - interfacer # deprecated
+    - maligned # deprecated
     - golint # deprecated
+    - exhaustivestruct # deprecated
+    - scopelint # deprecated
+    - varcheck # deprecated
+    - structcheck # deprecated
+    - nosnakecase # deprecated
+    - deadcode # deprecated
+    - ifshort # deprecated
     - sqlclosecheck # not relevant (SQL)
     - rowserrcheck # not relevant (SQL)
     - cyclop # duplicate of gocyclo
+    - bodyclose # Too many false positives: https://github.com/timakin/bodyclose/issues/30
     - lll
     - dupl
     - wsl
@@ -69,23 +78,21 @@ linters:
     - goerr113
     - wrapcheck
     - exhaustive
-    - exhaustivestruct
+    - exhaustruct
     - testpackage
     - tparallel
     - paralleltest
     - prealloc
-    - ifshort
     - forcetypeassert
     - nestif
-    - bodyclose # Too many false positives: https://github.com/timakin/bodyclose/issues/30
+    - varnamelen
 
 issues:
   exclude-use-default: false
   max-per-linter: 0
   max-same-issues: 0
   exclude:
-    - 'G204: Subprocess launched with variable'
-    - 'G304: Potential file inclusion via variable'
+    - 'package-comments: should have a package comment'
   exclude-rules:
     - path: .*_test.go
       linters:

@@ -4,13 +4,15 @@ import (
 	"bufio"
 	"bytes"
 	"go/format"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
 	"text/template"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 const srcTemplate = `package main
@@ -64,10 +66,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	tmpl, err := template.New("animations.go").
 		Funcs(template.FuncMap{
-			"Title": strings.Title,
+			"Title": cases.Title(language.Und).String,
 		}).
 		Parse(srcTemplate)
 	if err != nil {
@@ -85,14 +86,14 @@ func main() {
 		panic(err)
 	}
 
-	err = ioutil.WriteFile("./animations.go", source, 0644)
+	err = os.WriteFile("./animations.go", source, 0o644)
 	if err != nil {
 		panic(err)
 	}
 }
 
 func readCarTypes(rootDir string) (map[string]map[string]descriptor, error) {
-	infos, err := ioutil.ReadDir(rootDir)
+	infos, err := os.ReadDir(rootDir)
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +121,7 @@ func readCarTypes(rootDir string) (map[string]map[string]descriptor, error) {
 }
 
 func readCommands(dirPath string) (map[string]descriptor, error) {
-	items, err := ioutil.ReadDir(dirPath)
+	items, err := os.ReadDir(dirPath)
 	if err != nil {
 		return nil, err
 	}
@@ -168,7 +169,7 @@ func readCommands(dirPath string) (map[string]descriptor, error) {
 }
 
 func readAnimations(dirPath string) (descriptor, error) {
-	items, err := ioutil.ReadDir(dirPath)
+	items, err := os.ReadDir(dirPath)
 	if err != nil {
 		return descriptor{}, err
 	}
